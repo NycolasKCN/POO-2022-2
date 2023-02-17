@@ -14,8 +14,7 @@ public class Fibonacci {
         int temp;
 
         int count = 1;
-        while (count < n) {
-//            System.out.println(n1);
+        while (count < n) {''
             temp = n1 + n2;
             n1 = n2;
             n2 = temp;
@@ -39,6 +38,6 @@ public class Fibonacci {
     
     public static void main(String[] args) {
         Fibonacci f = new Fibonacci();
-        System.out.println(f.fib2(7));
+        System.out.println(fib1(20));
     }
 }
