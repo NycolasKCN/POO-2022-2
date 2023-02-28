@@ -10,9 +10,9 @@ public class MensagemParaAlguem extends Mensagem{
     @Override
     public String getTextoCompletoAExibir() {
         if (super.ehAnonima()) {
-            return "Mensagem para " + this.getEmailRemetente() + "Texto: " + this.getTexto();
+            return "Mensagem para " + super.getEmailRemetente() + "Texto: " + super.getTexto();
         }
-        return "Mensagem de: " + this.getEmailRemetente() + " para " + this.getEmailRemetente() + "Texto: " + this.getTexto();
+        return "Mensagem de: " + super.getEmailRemetente() + " para " + this.getEmailDestinatario() + "Texto: " + super.getTexto();
     }
 
     public String getEmailDestinatario() {
