@@ -6,6 +6,9 @@ public class MensagemParaTodos extends Mensagem{
 
     @Override
     public String getTextoCompletoAExibir() {
-        return null;
+        if (super.ehAnonima()) {
+            return "Mensagem para Todos. Texto: " + super.getTexto();
+        }
+        return "Mensagem de: " + super.getEmailRemetente() + " para todos. Texto: " + super.getTexto();
     }
 }
