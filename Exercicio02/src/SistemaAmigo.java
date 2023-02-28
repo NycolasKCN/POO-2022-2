@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import exceptions.AmigoInexistenteException;
+import exceptions.AmigoNaoSorteadoException;
+
 public class SistemaAmigo {
     private List<Mensagem> mensagens;
     private List<Amigo> amigos;
@@ -43,13 +46,24 @@ public class SistemaAmigo {
         return this.mensagens;
     }
 
-    public void configuraAmigoSecretoDe(String emailAmigo, String emailAmigoSorteado) {
-        Amigo amigo = pesquisaAmigo(emailAmigo);
-        amigo.setAmigoSorteado(emailAmigoSorteado);
+    public void configuraAmigoSecretoDe(String emailAmigo, String emailAmigoSorteado) throws AmigoInexistenteException{
+        for (Amigo amigo : amigos) {
+            if (amigo.getEmail().equals(emailAmigo)) {
+                amigo.setAmigoSorteado(emailAmigoSorteado);
+                return;
+            }
+        }
+        throw new AmigoInexistenteException("Amigo inexistente!");
     }
 
-    public String PesquisaAmigoSecretoDe(String emailAmigo) {
-        Amigo amigo = pesquisaAmigo(emailAmigo);
-        return amigo.getEmailAmigoSorteado();
+    public String PesquisaAmigoSecretoDe(String emailAmigo) throws AmigoInexistenteException, AmigoNaoSorteadoException{
+        for (Amigo amigo : amigos) {
+            if (amigo.getEmail().equals(emailAmigo)) {
+                if (amigo.getEmailAmigoSorteado() == null) throw new AmigoNaoSorteadoException("Amigo não sorteado!");
+                
+                return amigo.getEmailAmigoSorteado();
+            }
+        }
+        throw new AmigoInexistenteException("Amigo inexistente!");
     }
 }
