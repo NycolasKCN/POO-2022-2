@@ -1,3 +1,4 @@
+package sistema;
 public class MensagemParaAlguem extends Mensagem{
     public String emailDestinatario;
 

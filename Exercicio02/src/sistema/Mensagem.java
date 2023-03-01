@@ -1,3 +1,4 @@
+package sistema;
 public abstract class Mensagem {
     private String texto;
     private String emailRemetente;

@@ -3,6 +3,9 @@ import java.io.FileReader;
 import java.util.Scanner;
 
 import exceptions.AmigoInexistenteException;
+import sistema.Amigo;
+import sistema.Mensagem;
+import sistema.SistemaAmigo;
 
 public class TestaSistemaAmigo {
     private static final String CAMINHO_ARQUIVO_AMIGOS = "Exercicio02\\src\\amigos.txt";
