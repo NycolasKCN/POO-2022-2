@@ -5,6 +5,8 @@ import java.util.Scanner;
 import exceptions.AmigoInexistenteException;
 
 public class TestaSistemaAmigo {
+    private static final String CAMINHO_ARQUIVO_AMIGOS = "Exercicio02\\src\\amigos.txt";
+
     public static void main(String[] args) {
         SistemaAmigo sistemaAmigo = new SistemaAmigo();
         carregaAmigos(sistemaAmigo);
@@ -14,7 +16,6 @@ public class TestaSistemaAmigo {
 
         try {
             sistemaAmigo.configuraAmigoSecretoDe("josé@gmail.com", "maria@gmail.com");
-            sistemaAmigo.configuraAmigoSecretoDe("maria@gmail.com", "josé@gmail.com");
 
             sistemaAmigo.enviarMensagemParaAlguem("Olá José! Tudo bem?", "maria@gmail.com", "josé@gmail.com", true);
             sistemaAmigo.enviarMensagemParaTodos("Olá pessoal! Espero que estejam bem.", "maria@gmail.com", true);
@@ -40,7 +41,7 @@ public class TestaSistemaAmigo {
     }
 
     public static void carregaAmigos(SistemaAmigo sistemaAmigo) {
-        try (Scanner scan = new Scanner(new FileReader("Exercicio02\\src\\amigos.txt"))) {
+        try (Scanner scan = new Scanner(new FileReader(CAMINHO_ARQUIVO_AMIGOS))) {
             while (scan.hasNextLine()) {
                 String[] dados = scan.nextLine().split(";");
                 sistemaAmigo.cadastraAmigo(dados[0], dados[1]);
