@@ -15,27 +15,27 @@ public class TestaSistemaAmigo {
         try {
             sistemaAmigo.configuraAmigoSecretoDe("josé@gmail.com", "maria@gmail.com");
             sistemaAmigo.configuraAmigoSecretoDe("maria@gmail.com", "josé@gmail.com");
+
+            sistemaAmigo.enviarMensagemParaAlguem("Olá José! Tudo bem?", "maria@gmail.com", "josé@gmail.com", true);
+            sistemaAmigo.enviarMensagemParaTodos("Olá pessoal! Espero que estejam bem.", "maria@gmail.com", true);
         } catch (AmigoInexistenteException e) {
             System.out.println(e.getMessage());
         }
-
-        sistemaAmigo.enviarMensagemParaAlguem("Olá José! Tudo bem?", "maria@gmail.com", "josé@gmail.com", true);
-        sistemaAmigo.enviarMensagemParaTodos("Olá pessoal! Espero que estejam bem.", "maria@gmail.com", true);
 
         for (Mensagem mensagem : sistemaAmigo.pesquisaMensagensAnonimas()) {
             System.out.println(mensagem.getTextoCompletoAExibir());
         }
 
-        if (sistemaAmigo.pesquisaAmigo("josé@gmail.com").getEmailAmigoSorteado().equals("maria@gmail.com")) {
+        if (sistemaAmigo.pesquisaAmigo("josé@gmail.com").getEmailAmigoSecreto().equals("maria@gmail.com")) {
             System.out.println("Amigo secreto configurado corretamente!");
         }
 
         System.out.println();
-        
+
         sistemaAmigo.sortearAmigoSecreto();
         System.out.println("Nome - Email - Email do Amigo Secreto");
-        for (Amigo amigo : sistemaAmigo.getAmigos()) {
-            System.out.println(amigo.getNome() + " - " + amigo.getEmail() + " - " + amigo.getEmailAmigoSorteado());
+        for (Amigo amigo : sistemaAmigo.pesquisaTodosAmigos()) {
+            System.out.println(amigo.getNome() + " - " + amigo.getEmail() + " - " + amigo.getEmailAmigoSecreto());
         }
     }
 
@@ -47,8 +47,9 @@ public class TestaSistemaAmigo {
             }
         } catch (FileNotFoundException e) {
             System.out.println("Arquivo não encontrado!");
+            System.out.println();
         } catch (Exception e) {
-            System.out.println("Erro insperado ao carregar amigos!");
+            System.out.println("Erro ao carregar amigos: " + e);
         }
     }
 }

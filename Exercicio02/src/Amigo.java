@@ -1,12 +1,12 @@
 public class Amigo {
     private String nome;
     private String email;
-    private String emailAmigoSorteado;
+    private String emailAmigoSecreto;
 
     public Amigo(String nome, String email) {
         this.nome = nome;
         this.email = email;
-        this.emailAmigoSorteado = null;
+        this.emailAmigoSecreto = null;
     }
 
     public String getNome() {
@@ -25,12 +25,12 @@ public class Amigo {
         this.email = email;
     }
 
-    public String getEmailAmigoSorteado() {
-        return emailAmigoSorteado;
+    public String getEmailAmigoSecreto() {
+        return emailAmigoSecreto;
     }
 
-    public void setAmigoSorteado(String emailAmigoSorteado) {
-        this.emailAmigoSorteado = emailAmigoSorteado;
+    public void setAmigoSecreto(String emailAmigoSecreto) {
+        this.emailAmigoSecreto = emailAmigoSecreto;
     }
 
 }
