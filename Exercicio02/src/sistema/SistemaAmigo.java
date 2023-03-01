@@ -1,17 +1,33 @@
 package sistema;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import exceptions.AmigoInexistenteException;
 import exceptions.AmigoNaoSorteadoException;
+import exceptions.MaximoDeMensagensException;
 
 public class SistemaAmigo {
+    private static final int MENSAGENS_SEM_LIMITE = -1;
+
     private List<Mensagem> mensagens;
     private List<Amigo> amigos;
+    private int maxMensagens;
 
     public SistemaAmigo() {
+        this(MENSAGENS_SEM_LIMITE);
+    }
+
+    public SistemaAmigo(int maxMensagens) {
         this.mensagens = new ArrayList<>();
         this.amigos = new ArrayList<>();
+        this.maxMensagens = maxMensagens;
+    }
+
+    private boolean limiteDeMensagens() {
+        if (mensagens.size() >= maxMensagens)
+            return true;
+        return false;
     }
 
     public void cadastraAmigo(String nome, String email) {
@@ -57,6 +73,7 @@ public class SistemaAmigo {
 
     public String pesquisaAmigoSecretoDe(String emailAmigo)
             throws AmigoInexistenteException, AmigoNaoSorteadoException {
+                
         for (Amigo amigo : amigos) {
             if (amigo.getEmail().equals(emailAmigo)) {
                 if (amigo.getEmailAmigoSecreto() == null)
@@ -69,7 +86,11 @@ public class SistemaAmigo {
     }
 
     public void enviarMensagemParaTodos(String texto, String emailRemetente, boolean anonima)
-            throws AmigoInexistenteException {
+            throws AmigoInexistenteException, MaximoDeMensagensException {
+
+        if (this.limiteDeMensagens()) {
+            throw new MaximoDeMensagensException("Maximo de mensagens alcançada");
+        }
         if (!amigoExiste(emailRemetente)) {
             throw new AmigoInexistenteException("Amigo remetente não existe, ou não está listado");
         }
@@ -78,7 +99,11 @@ public class SistemaAmigo {
     }
 
     public void enviarMensagemParaAlguem(String texto, String emailRemetente, String emailDestinatario, boolean anonima)
-            throws AmigoInexistenteException {
+            throws AmigoInexistenteException, MaximoDeMensagensException {
+
+        if (this.limiteDeMensagens()) {
+            throw new MaximoDeMensagensException("Maximo de mensagens enviadas alcançada");
+        }
         if ((!this.amigoExiste(emailDestinatario)) || (!this.amigoExiste(emailRemetente))) {
             throw new AmigoInexistenteException(
                     "Amigo destinatário ou remetente, não existe(m) ou não está(am) listado(s).");

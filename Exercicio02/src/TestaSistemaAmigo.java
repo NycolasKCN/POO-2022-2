@@ -3,6 +3,7 @@ import java.io.FileReader;
 import java.util.Scanner;
 
 import exceptions.AmigoInexistenteException;
+import exceptions.MaximoDeMensagensException;
 import sistema.Amigo;
 import sistema.Mensagem;
 import sistema.SistemaAmigo;
@@ -11,7 +12,7 @@ public class TestaSistemaAmigo {
     private static final String CAMINHO_ARQUIVO_AMIGOS = "Exercicio02\\src\\amigos.txt";
 
     public static void main(String[] args) {
-        SistemaAmigo sistemaAmigo = new SistemaAmigo();
+        SistemaAmigo sistemaAmigo = new SistemaAmigo(2);
         carregaAmigos(sistemaAmigo);
 
         sistemaAmigo.cadastraAmigo("José", "josé@gmail.com");
@@ -22,7 +23,10 @@ public class TestaSistemaAmigo {
 
             sistemaAmigo.enviarMensagemParaAlguem("Olá José! Tudo bem?", "maria@gmail.com", "josé@gmail.com", true);
             sistemaAmigo.enviarMensagemParaTodos("Olá pessoal! Espero que estejam bem.", "maria@gmail.com", true);
+            sistemaAmigo.enviarMensagemParaAlguem("Oi Carrol!", "Sidney@gmail.com", "carrol@gmail.com", false);
         } catch (AmigoInexistenteException e) {
+            System.out.println(e.getMessage());
+        } catch (MaximoDeMensagensException e) {
             System.out.println(e.getMessage());
         }
 
