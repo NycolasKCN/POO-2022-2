@@ -22,7 +22,7 @@ public class TestaSistemaAmigoGUI {
             sistema.cadastraAmigo(nome, email);
         }
 
-        sistema.sortearAmigoSecreto();
+        sistema.sortearAmigosSecretos();
 
         String textFormated = "Nome - Email do amigo secreto\n";
         for (Amigo amigo : sistema.pesquisaTodosAmigos()) {

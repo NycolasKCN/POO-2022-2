@@ -9,7 +9,7 @@ import sistema.Mensagem;
 import sistema.SistemaAmigo;
 
 public class TestaSistemaAmigo {
-    private static final String CAMINHO_ARQUIVO_AMIGOS = "Exercicio02\\src\\amigos.txt";
+    private static final String CAMINHO_ARQUIVO_AMIGOS = "src\\amigos.txt";
 
     public static void main(String[] args) {
         SistemaAmigo sistemaAmigo = new SistemaAmigo(2);
@@ -40,7 +40,7 @@ public class TestaSistemaAmigo {
 
         System.out.println();
 
-        sistemaAmigo.sortearAmigoSecreto();
+        sistemaAmigo.sortearAmigosSecretos();
         System.out.println("Nome - Email - Email do Amigo Secreto");
         for (Amigo amigo : sistemaAmigo.pesquisaTodosAmigos()) {
             System.out.println(amigo.getNome() + " - " + amigo.getEmail() + " - " + amigo.getEmailAmigoSecreto());

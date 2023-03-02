@@ -74,7 +74,7 @@ public class SistemaAmigo {
     public String pesquisaAmigoSecretoDe(String emailAmigo)
             throws AmigoInexistenteException, AmigoNaoSorteadoException {
                 
-        for (Amigo amigo : amigos) {
+        for (Amigo amigo : this.amigos) {
             if (amigo.getEmail().equals(emailAmigo)) {
                 if (amigo.getEmailAmigoSecreto() == null)
                     throw new AmigoNaoSorteadoException("Amigo não sorteado!");
@@ -113,7 +113,7 @@ public class SistemaAmigo {
     }
 
     public void configuraAmigoSecretoDe(String emailAmigo, String emailAmigoSorteado) throws AmigoInexistenteException {
-        for (Amigo amigo : amigos) {
+        for (Amigo amigo : this.amigos) {
             if (amigo.getEmail().equals(emailAmigo)) {
                 amigo.setAmigoSecreto(emailAmigoSorteado);
                 return;
@@ -124,7 +124,7 @@ public class SistemaAmigo {
 
     public List<Amigo> amigosSemAmigoSecreto() {
         List<Amigo> amigosNaoSorteados = new ArrayList<>();
-        for (Amigo amigo : amigos) {
+        for (Amigo amigo : this.amigos) {
             if (amigo.getEmailAmigoSecreto() == null) {
                 amigosNaoSorteados.add(amigo);
             }
@@ -132,23 +132,9 @@ public class SistemaAmigo {
         return amigosNaoSorteados;
     }
 
-    private List<Amigo> amigosParaSortear() {
-        List<Amigo> amigosParaSortear = new ArrayList<Amigo>(pesquisaTodosAmigos());
-
-        for (Amigo amigo : this.pesquisaTodosAmigos()) {
-            for (Amigo a : this.pesquisaTodosAmigos()) {
-                if (amigo.getEmail().equals(a.getEmailAmigoSecreto())) {
-                    amigosParaSortear.remove(amigo);
-                    break;
-                }
-            }
-        }
-        return amigosParaSortear;
-    }
-
-    public void sortearAmigoSecreto() {
+    public void sortearAmigosSecretos() {
         List<Amigo> amigosSemAmigoSecreto = amigosSemAmigoSecreto();
-        List<Amigo> amigosParaSortear = amigosParaSortear();
+        List<Amigo> amigosParaSortear = new ArrayList<>(this.amigos);
 
         for (Amigo amigo : amigosSemAmigoSecreto) {
             Amigo amigoSorteado = null;
@@ -159,4 +145,21 @@ public class SistemaAmigo {
             amigosParaSortear.remove(amigoSorteado);
         }
     }
+
+    private void sortear(Amigo amigo) {
+        Amigo amigoSorteado = null;
+        do {
+            amigoSorteado 
+        }
+    }
+
+    private boolean amigoNaoEhIgual(Amigo amigo, Amigo amigoParaComparar){
+        String emailAmigo = amigo.getEmail();
+        String emailAmigoParaComparar = amigoParaComparar.getEmail();
+        boolean ehIgual = emailAmigo.equals(emailAmigoParaComparar);
+
+        if (ehIgual) return true;
+        return false;
+    }
+
 }
