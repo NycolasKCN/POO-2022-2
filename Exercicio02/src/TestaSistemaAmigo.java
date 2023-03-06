@@ -2,6 +2,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
 
+import exceptions.AmigoExistenteException;
 import exceptions.AmigoInexistenteException;
 import exceptions.MaximoDeMensagensException;
 import sistema.Amigo;
@@ -15,10 +16,10 @@ public class TestaSistemaAmigo {
         SistemaAmigo sistemaAmigo = new SistemaAmigo(2);
         carregaAmigos(sistemaAmigo);
 
-        sistemaAmigo.cadastraAmigo("José", "josé@gmail.com");
-        sistemaAmigo.cadastraAmigo("Maria", "maria@gmail.com");
-
+        
         try {
+            sistemaAmigo.cadastraAmigo("José", "josé@gmail.com");
+            sistemaAmigo.cadastraAmigo("Maria", "maria@gmail.com");
             sistemaAmigo.configuraAmigoSecretoDe("josé@gmail.com", "maria@gmail.com");
 
             sistemaAmigo.enviarMensagemParaAlguem("Olá José! Tudo bem?", "maria@gmail.com", "josé@gmail.com", true);
@@ -27,6 +28,8 @@ public class TestaSistemaAmigo {
         } catch (AmigoInexistenteException e) {
             System.out.println(e.getMessage());
         } catch (MaximoDeMensagensException e) {
+            System.out.println(e.getMessage());
+        } catch (AmigoExistenteException e) {
             System.out.println(e.getMessage());
         }
 
@@ -57,7 +60,7 @@ public class TestaSistemaAmigo {
             System.out.println("Arquivo não encontrado!");
             System.out.println();
         } catch (Exception e) {
-            System.out.println("Erro ao carregar amigos: " + e);
+            System.out.println("Erro ao carregar amigos: " + e.getLocalizedMessage());
         }
     }
 }

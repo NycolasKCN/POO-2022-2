@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import exceptions.AmigoInexistenteException;
+import exceptions.AmigoExistenteException;
 import exceptions.AmigoNaoSorteadoException;
 import exceptions.MaximoDeMensagensException;
+import exceptions.SorteioException;
 
 public class SistemaAmigo {
     private static final int MENSAGENS_SEM_LIMITE = -1;
@@ -30,9 +32,13 @@ public class SistemaAmigo {
         return false;
     }
 
-    public void cadastraAmigo(String nome, String email) {
+    public void cadastraAmigo(String nome, String email) throws AmigoExistenteException {
         Amigo amigo = new Amigo(nome, email);
-        amigos.add(amigo);
+        if (!this.amigos.contains(amigo)) {
+            amigos.add(amigo);
+        } else {
+            throw new AmigoExistenteException("Amigo de email: " + email + " já está cadastrado.");
+        }
     }
 
     private boolean amigoExiste(String emailAmigo) {
@@ -77,12 +83,12 @@ public class SistemaAmigo {
         for (Amigo amigo : this.amigos) {
             if (amigo.getEmail().equals(emailAmigo)) {
                 if (amigo.getEmailAmigoSecreto() == null)
-                    throw new AmigoNaoSorteadoException("Amigo não sorteado!");
+                    throw new AmigoNaoSorteadoException("Amigo secreto do amigo: " + amigo.getEmail() + " não registrado.");
 
                 return amigo.getEmailAmigoSecreto();
             }
         }
-        throw new AmigoInexistenteException("Amigo inexistente!");
+        throw new AmigoInexistenteException("Amigo de email: " + emailAmigo + " não está cadastrado.");
     }
 
     public void enviarMensagemParaTodos(String texto, String emailRemetente, boolean anonima)
@@ -113,53 +119,41 @@ public class SistemaAmigo {
     }
 
     public void configuraAmigoSecretoDe(String emailAmigo, String emailAmigoSorteado) throws AmigoInexistenteException {
+        if (!amigoExiste(emailAmigoSorteado)) {
+            throw new AmigoInexistenteException("Amigo de email " + emailAmigoSorteado + " não está cadastrado.");  
+        } 
+
         for (Amigo amigo : this.amigos) {
             if (amigo.getEmail().equals(emailAmigo)) {
                 amigo.setAmigoSecreto(emailAmigoSorteado);
                 return;
             }
         }
-        throw new AmigoInexistenteException("Amigo inexistente!");
-    }
-
-    public List<Amigo> amigosSemAmigoSecreto() {
-        List<Amigo> amigosNaoSorteados = new ArrayList<>();
-        for (Amigo amigo : this.amigos) {
-            if (amigo.getEmailAmigoSecreto() == null) {
-                amigosNaoSorteados.add(amigo);
-            }
-        }
-        return amigosNaoSorteados;
+        throw new AmigoInexistenteException("Amigo de email " + emailAmigo + " não está cadastrado.");
     }
 
     public void sortearAmigosSecretos() {
-        List<Amigo> amigosSemAmigoSecreto = amigosSemAmigoSecreto();
         List<Amigo> amigosParaSortear = new ArrayList<>(this.amigos);
 
-        for (Amigo amigo : amigosSemAmigoSecreto) {
+        for (Amigo a : this.amigos) {
             Amigo amigoSorteado = null;
             do {
-                amigoSorteado = amigosParaSortear.get((int) (Math.random() * amigosParaSortear.size()));
-            } while (amigoSorteado.getEmail().equals(amigo.getEmail()));
-            amigo.setAmigoSecreto(amigoSorteado.getEmail());
+                amigoSorteado = sortear(a, amigosParaSortear);
+            } while (amigoEhIgual(a, amigoSorteado));
+            a.setAmigoSecreto(amigoSorteado.getEmail());
             amigosParaSortear.remove(amigoSorteado);
         }
     }
 
-    private void sortear(Amigo amigo) {
-        Amigo amigoSorteado = null;
-        do {
-            amigoSorteado 
-        }
+    private Amigo sortear(Amigo a, List<Amigo> listAmigos) {
+        int index = (int) (Math.random() * listAmigos.size());
+        Amigo amigoSorteado = listAmigos.get(index);
+        return amigoSorteado;
+        
     }
 
-    private boolean amigoNaoEhIgual(Amigo amigo, Amigo amigoParaComparar){
-        String emailAmigo = amigo.getEmail();
-        String emailAmigoParaComparar = amigoParaComparar.getEmail();
-        boolean ehIgual = emailAmigo.equals(emailAmigoParaComparar);
-
-        if (ehIgual) return true;
-        return false;
+    private boolean amigoEhIgual(Amigo amigo, Amigo outroAmigo){
+        return amigo.equals(outroAmigo);
     }
 
 }
