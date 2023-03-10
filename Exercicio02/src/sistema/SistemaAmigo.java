@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import exceptions.AmigoInexistenteException;
-import exceptions.AmigoExistenteExeception;
+import exceptions.AmigoExistenteException;
 import exceptions.AmigoNaoSorteadoException;
 import exceptions.MaximoDeMensagensException;
-import exceptions.SorteioException;
 
 public class SistemaAmigo {
     private static final int MENSAGENS_SEM_LIMITE = -1;
@@ -32,10 +31,10 @@ public class SistemaAmigo {
         return false;
     }
 
-    public void cadastraAmigo(String nome, String email) throws AmigoExistenteExeception {
+    public void cadastraAmigo(String nome, String email) throws AmigoExistenteException {
         Amigo amigo = new Amigo(nome, email);
         if (!this.amigos.contains(amigo)) {
-            throw new AmigoExistenteExeception("Amigo de nome: " + nome + " já cadastrado.");
+            throw new AmigoExistenteException("Amigo de nome: " + nome + " já cadastrado.");
         }
         amigos.add(amigo);
     }
@@ -78,11 +77,6 @@ public class SistemaAmigo {
 
     public String pesquisaAmigoSecretoDe(String email)
             throws AmigoInexistenteException, AmigoNaoSorteadoException {
-                
-        for (Amigo amigo : this.amigos) {
-            if (amigo.getEmail().equals(emailAmigo)) {
-                if (amigo.getEmailAmigoSecreto() == null)
-                    throw new AmigoNaoSorteadoException("Amigo secreto do amigo: " + amigo.getEmail() + " não registrado.");
 
         for (Amigo a : this.amigos) {
             if (a.getEmail().equals(email)) {
@@ -139,31 +133,38 @@ public class SistemaAmigo {
                 return;
             }
         }
-        throw new AmigoInexistenteException("Amigo de email " + emailAmigo + " não está cadastrado.");
+        throw new AmigoInexistenteException("Amigo de email: " + emailAmigo + " não existe.");
+    }
+
+    public List<Amigo> amigosSemAmigoSecreto() {
+        List<Amigo> amigosNaoSorteados = new ArrayList<>();
+        for (Amigo amigo : this.amigos) {
+            if (amigo.getEmailAmigoSecreto() == null) {
+                amigosNaoSorteados.add(amigo);
+            }
+        }
+        return amigosNaoSorteados;
     }
 
     public void sortearAmigosSecretos() {
+        List<Amigo> amigosSemAmigoSecreto = this.amigosSemAmigoSecreto();
         List<Amigo> amigosParaSortear = new ArrayList<>(this.amigos);
 
-        for (Amigo a : this.amigos) {
+        for (Amigo amigo : amigosSemAmigoSecreto) {
             Amigo amigoSorteado = null;
             do {
-                amigoSorteado = sortear(a, amigosParaSortear);
-            } while (amigoEhIgual(a, amigoSorteado));
-            a.setAmigoSecreto(amigoSorteado.getEmail());
+                int indiceSorteado = (int) (Math.random() * amigosParaSortear.size());
+                amigoSorteado = amigosParaSortear.get(indiceSorteado);
+            } while (this.amigoEhIgual(amigo, amigoSorteado));
+            amigo.setAmigoSecreto(amigoSorteado.getEmail());
             amigosParaSortear.remove(amigoSorteado);
         }
     }
 
-    private Amigo sortear(Amigo a, List<Amigo> listAmigos) {
-        int index = (int) (Math.random() * listAmigos.size());
-        Amigo amigoSorteado = listAmigos.get(index);
-        return amigoSorteado;
-        
+    private boolean amigoEhIgual(Amigo amigo, Amigo amigoParaComparar) {
+        if (!amigo.equals(amigoParaComparar)) {
+            return false;
+        }
+        return true;
     }
-
-    private boolean amigoEhIgual(Amigo amigo, Amigo outroAmigo){
-        return amigo.equals(outroAmigo);
-    }
-
 }

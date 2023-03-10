@@ -2,7 +2,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
 
-import exceptions.AmigoExistenteExeception;
+import exceptions.AmigoExistenteException;
 import exceptions.AmigoInexistenteException;
 import exceptions.MaximoDeMensagensException;
 import sistema.Amigo;
@@ -31,7 +31,7 @@ public class TestaSistemaAmigo {
         } catch (MaximoDeMensagensException e) {
             System.out.println(e.getMessage());
             System.out.println("Limite de mensagens atingido!");
-        } catch (AmigoExistenteExeception e) {
+        } catch (AmigoExistenteException e) {
             System.out.println(e.getMessage());
             System.out.println("Amigo já cadastrado!");
         }
