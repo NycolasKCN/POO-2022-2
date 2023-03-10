@@ -10,7 +10,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class SistemaAmigoTest {
+public class SistemaAmigoMapTest {
 
 	SistemaAmigoMap sistema;
 	
