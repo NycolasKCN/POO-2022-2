@@ -1,5 +1,6 @@
 import javax.swing.JOptionPane;
 
+import exceptions.AmigoExistenteException;
 import exceptions.AmigoInexistenteException;
 import exceptions.MaximoDeMensagensException;
 import sistema.Amigo;
@@ -19,7 +20,11 @@ public class TestaSistemaAmigoGUI {
         for (int i = 0; i < amigosParticipantes; i++) {
             String nome = JOptionPane.showInputDialog("Digite o nome do amigo");
             String email = JOptionPane.showInputDialog("Digite o email do amigo");
-            sistema.cadastraAmigo(nome, email);
+            try {
+                sistema.cadastraAmigo(nome, email);
+            } catch (AmigoExistenteException e) {
+                System.out.println(e.getMessage());
+            }
         }
 
         sistema.sortearAmigosSecretos();

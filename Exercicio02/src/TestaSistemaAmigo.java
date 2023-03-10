@@ -16,9 +16,11 @@ public class TestaSistemaAmigo {
         SistemaAmigo sistemaAmigo = new SistemaAmigo(2);
         carregaAmigos(sistemaAmigo);
 
+        
         try {
             sistemaAmigo.cadastraAmigo("José", "josé@gmail.com");
             sistemaAmigo.cadastraAmigo("Maria", "maria@gmail.com");
+            sistemaAmigo.configuraAmigoSecretoDe("josé@gmail.com", "maria@gmail.com");
 
             sistemaAmigo.enviarMensagemParaAlguem("Olá José! Tudo bem?", "maria@gmail.com", "josé@gmail.com", true);
             sistemaAmigo.enviarMensagemParaTodos("Olá pessoal! Espero que estejam bem.", "maria@gmail.com", true);
