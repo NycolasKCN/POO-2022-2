@@ -13,5 +13,4 @@ public class ClientPJ extends Client {
         return this.CNPJ;
     }
 
-
 }
