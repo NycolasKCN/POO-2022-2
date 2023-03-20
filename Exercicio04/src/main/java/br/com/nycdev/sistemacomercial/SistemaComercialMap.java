@@ -2,6 +2,7 @@ package br.com.nycdev.sistemacomercial;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class SistemaComercialMap {
@@ -18,27 +19,36 @@ public class SistemaComercialMap {
     }
 
     public Product findProduct(String code) {
-        //TODO
+        Product p = this.produtos.get(code);
+        if (!(p == null)) {
+            return p;
+        }
         return null;
     }
 
     public boolean registerProduct(Product product) {
-        //TODO
+        if (!existProduct(product)) {
+            this.produtos.put(product.getCode(), product);
+            return true;
+        }
         return false;
     }
 
     public boolean registerOrder(Pedido order) {
-        //TODO
+        // TODO
         return false;
     }
 
     public boolean existOrder(Pedido order) {
-        //TODO
+        // TODO
         return false;
     }
 
     public boolean registerClient(Client client) {
-        //TODO
+        if (!existClient(client)) {
+            this.clientes.put(client.getId(), client);
+            return true;
+        }
         return false;
     }
 
@@ -48,20 +58,37 @@ public class SistemaComercialMap {
 
     public Client findClient(String id) {
         Client c = this.clientes.get(id);
-        if (existClient(c)) {
+        if (!(c == null)) {
             return c;
-        } else {
-            return null;
         }
+        return null;
     }
 
-    public Collection<Client> findClientsByNameInitial(String prefix) {
-        //TODO
+    public Collection<Client> findClientsByNameStartsWith(String prefix) {
+        Collection<Client> c = new LinkedList<>();
+        this.clientes.forEach(
+                (key, value) -> {
+                    if (value.getName().startsWith(prefix)) {
+                        c.add(value);
+                    }
+                });
         return null;
     }
 
     public Collection<Product> findProductsByCategory(CategoriaProduto category) {
-        Collection<Product> p = this.produtos.
-        return null;
+        Collection<Product> p = new LinkedList<>();
+
+        this.produtos.forEach(
+                (key, value) -> {
+                    if (matchCategory(category, value.getCategory())) {
+                        p.add(value);
+                    }
+                });
+
+        return p;
+    }
+
+    private boolean matchCategory(CategoriaProduto category, CategoriaProduto other) {
+        return category == other;
     }
 }
