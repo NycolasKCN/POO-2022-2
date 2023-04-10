@@ -1,13 +1,13 @@
-package nycdev;
+package nycdev.models;
 
 import java.io.Serializable;
 
 public class Livro implements Serializable {
     private String titulo;
     private String autor;
-    private int numPag;
+    private String numPag;
 
-    public Livro(String titulo, String autor, int numPag) {
+    public Livro(String titulo, String autor, String numPag) {
         this.titulo = titulo;
         this.autor = autor;
         this.numPag = numPag;
@@ -41,11 +41,11 @@ public class Livro implements Serializable {
         this.autor = autor;
     }
 
-    public int getNumPag() {
+    public String getNumPag() {
         return numPag;
     }
 
-    public void setNumPag(int numPag) {
+    public void setNumPag(String numPag) {
         this.numPag = numPag;
     }
 
