@@ -43,7 +43,7 @@ public class PersonalLibraryGUI extends JFrame {
     }
 
     public static void main(String[] args) {
-        JFrame f = new PersonalLibraryGUI();
+        JFrame f = new SalvarLivroFrame();
         f.setVisible(true);
         f.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
