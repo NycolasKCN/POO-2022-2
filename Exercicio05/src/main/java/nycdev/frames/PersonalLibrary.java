@@ -20,43 +20,53 @@ public class PersonalLibrary {
 
     public PersonalLibrary() {
         sistema = new SistemaLivro();
-        configFrame();
-
         cadastraFrame = new CadastrarLivroFrame(sistema);
 
+        configMenuBar();
+        configLabels();
+        configFrame();
+    }
 
+    private void configMenuBar() {
         JMenu cadastrarMenu = new JMenu("Cadastrar");
         JMenuItem cadastraLivro = new JMenuItem("Cadastar novo livro");
-        cadastraLivro.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cadastraFrame.setVisible(true);
-            }
+        cadastraLivro.addActionListener(e -> {
+            cadastraFrame.setVisible(true);
         });
         cadastrarMenu.add(cadastraLivro);
 
         JMenu pesquisaMenu = new JMenu("Pesquisar");
         JMenuItem pesquisaLivro = new JMenuItem("Pesquisar livro");
+        pesquisaLivro.addActionListener(e -> {
+            System.out.println(sistema.getLivros());
+        });
         pesquisaMenu.add(pesquisaLivro);
+
         JMenu excluirMenu = new JMenu("Excluir");
         JMenuItem excluirLivro = new JMenuItem("Excluir livro");
         excluirMenu.add(excluirLivro);
 
+        JMenu salvarMenu = new JMenu("Salvar");
+        JMenuItem salvarDados = new JMenuItem("Salvar dados");
+        salvarDados.addActionListener(e -> {
+            sistema.salvarDados();
+            JOptionPane.showMessageDialog(mainFrame, "Dados salvos com sucesso.");
+        });
+        salvarMenu.add(salvarDados);
+
         menuBar.add(cadastrarMenu);
         menuBar.add(pesquisaMenu);
         menuBar.add(excluirMenu);
-
-
+        menuBar.add(salvarMenu);
     }
 
-    public void configLabels(){
+    private void configLabels() {
         title = new JLabel("Bem vindo, User", JLabel.CENTER);
         title.setFont(new Font("serif", Font.BOLD, 28));
         image = new JLabel(reiImg, JLabel.CENTER);
-
     }
 
-    public void configFrame(){
+    private void configFrame() {
         mainFrame = new JFrame();
         mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         mainFrame.addWindowListener(new WindowAdapter() {
@@ -72,23 +82,19 @@ public class PersonalLibrary {
         mainFrame.setBackground(Color.lightGray);
         mainFrame.setLocation(300, 50);
         mainFrame.setResizable(false);
-        mainFrame.setSize(800,600);
+        mainFrame.setSize(800, 600);
         mainFrame.setTitle("PersonalLibrary");
         mainFrame.setJMenuBar(menuBar);
-        mainFrame.setLayout(new GridLayout(1,2));
+        mainFrame.setLayout(new GridLayout(1, 2));
         mainFrame.add(title);
         mainFrame.add(image);
     }
 
-    public void configCadastraFrame(){
+    private void configCadastraFrame() {
 
     }
 
     public void run() {
         mainFrame.setVisible(true);
-    }
-    public static void main(String[] args) {
-        PersonalLibrary o = new PersonalLibrary();
-        o.run();
     }
 }
